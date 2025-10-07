@@ -48,7 +48,7 @@ print("\n")
 print("Searching for run ID...")
 print("\n")
 
-json_path = base_dir.parent / "barcodes" / "barcodes_mgi.json"
+json_path = base_dir.parent.parent / "barcodes" / "barcodes_mgi.json"
 
 with open(json_path, "r") as f:
     barcodes = json.load(f)
@@ -60,15 +60,15 @@ dataframe["Barcode"] = dataframe["Sequence"].map({v: k for k, v in barcodes.item
 matches = list(ztron_path.rglob(f"{flowcell}_L01.summaryReport.html"))
 
 if not matches:
-    raise FileNotFoundError(f"Nenhum arquivo encontrado para {flowcell} em {base_dir}")
+    raise FileNotFoundError(f"No {flowcell} file in {base_dir}")
 
 if len(matches) == 1:
     selected_path = matches[0].parent
 else:
-    print("Foram encontrados múltiplos diretórios:")
+    print("More than one job found.")
     for i, p in enumerate(matches):
         print(f"{i+1}: {p.parent}")
-    choice = int(input("Selecione o número do diretório desejado: "))
+    choice = int(input("Select the number of the correct option:"))
     selected_path = matches[choice - 1].parent
 
 #selected_path = "/mnt/z/ztron/autorunDW/DNBSEQ-T7/R2100610220009/write_fastq_config_1_5/ztron/E250077027_L01_14525/E250077027_L01"
